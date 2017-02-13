@@ -37,7 +37,11 @@ var missed = 0;
 //Array to keeps track of asked questions. As not to repeat.
 var askedAlready = [];
 
-//var j= 0;// this is test for timer
+//Assigns the number of questions to be asked each game.
+var numQuestions = 10;
+
+//Stores the Id for setInterval()
+var intervalId = 0;
 
 
 
@@ -135,35 +139,71 @@ $(document).ready(function()
 
 
 
-	//============= Test timer loop===================
-
-			 testTimer();
-			// console.log("done");
-			var counter = 1;
-			
-			 interval = setInterval(function()
-			 {
-			 	console.log("setInterval");
-			 	counter++;
-			
-			 	if(counter > 5 )
-			 	{
-			 		clearInterval(interval);
-			 		$("#question").html("Done");
-
-			 	}
-			 	$("#question").html(counter);
-			 	testTimer();
-
-			 }, 16000);
-			
-			
 	
+
+
+//============= pseudo code for timers =================
+	/*
+		
+		function somefunction()
+		{
+			var time = 20;
+			displayRandomQuestion();
+			run setinterval for question time
+			{
+				time--;
+				display time;
+
+			}
+				
+			if timer runs out
+			{
+				clearInterval
+				show you missed
+				missed++;
+			}
+			
+			answer.on("click)
+			{
+				clearInterval
+				if correct
+				{
+					correct++;
+					show you are correct
+				}
+				else incorrect
+				{
+					incorrect++;
+					show you are incorrect
+				}
+			}//END answer.on("click)
+				
+
+			show win/lose/miss  and answer when timer ends
+
+			setTimeOut for 5 seconds
+			{
+				
+				somefuntion();
+
+			}
+
+
+		}//END somefunction
+//====================== end Timer pseudo code =============
+
+	*/	
+
+
+
 		
 		
+		
 
+		game(); // test display
+		console.log("After Interval"); // this runs
 
-
+		$("#answer").click(testClick);
 
 
 });//END $(document).ready
@@ -195,31 +235,134 @@ function gameReset()
 	incorrect = 0;
 	missed = 0;
 	askedAlready = [];
-
+	numQuestions = 10;
 
 }//END gameReset
 
-//=============== recursive timer test ====================
-var j =  14;
-function testTimer()
+//===================================
+function stopInterval()
 {
+	console.log("interval stopped");
+	clearInterval(intervalId);
+	answerFlag = true;
+
+}//END stopInterval
+
+//===================================
+
+
+//problem when set interval is cleared
+//code is not called.
+//maybe put code inside in function that is ran checking a flag
+//in answer button.  example if(interval stopped ... run function
+function origGame()
+{
+	//Counter for setInterval/clrearInterval
+	var time = 15;//seconds
+
+	$("#question").html(numQuestions);
 	
-	setTimeout(function() {
+	intervalId = setInterval(function()
+	{
+		time--;
+		$("#time").html(time);
+		if(time == 0)
+		{	
+			clearInterval(intervalId);
+			console.log("Times Up")
+			numQuestions--;
+					
+			setTimeout(function() 
+			{
+				if(numQuestions > 0)
+				{
+					game();
+				}
+
+			}, 5000);//END setTimeout
+								
+		}//END if
+
+	},1000);//END setInterval
+
+
+			
+}//End display
+
+//=====================================================
+
+var answerFlag = false;
+
+function game()
+{
+	//Counter for setInterval/clrearInterval
+	var time = 15;//seconds
+
+	$("#question").html(numQuestions);
+	
+	intervalId = setInterval(function()
+	{
+		time--;
+		$("#time").html(time);
+		if(time == 0)
+		{	
+			clearInterval(intervalId);
 		
-		$("#time").html(j);
-		j--;
-		if(j > -1)
+		$("#win-lose").html("Times UP!");//testcode
+			numQuestions--;
+					
+			setTimeout(function()    // put this in function?
+			{
+				if(numQuestions > 0)
+				{
+					game();
+				}
+				$("#win-lose").html("");//testcode
+			}, 5000);//END setTimeout
+								
+		}//END if
+
+	},1000);//END setInterval
+
+	
+
+			
+}//End game
+//===================================================
+
+// stop interval
+// check answer
+//	
+// call game()
+
+
+function clickedAnswer()
+{
+		console.log("this executes");
+		stopInterval();
+		numQuestions--;
+		//	put code here to check answer
+		//
+		$("#win-lose").html("clicked answer");//testcode			
+		$("#time").html(15);
+		setTimeout(function() 
 		{
-			testTimer();
-		}
-		else
-		{
-			j=14; // resets j to 15
-		}
-	}, 1000);
- 
+			if(numQuestions > 0)
+			{
+				$("#win-lose").html("");//testcode
+				game();
+			}
+
+		}, 5000);//END setTimeout
 
 }
+
+
+
+
+
+
+
 
 
 
