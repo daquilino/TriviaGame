@@ -1,0 +1,48 @@
+/*  Douglas Aquilino       February 18, 2017    */
+/*  RCB - Trivia Game"     Homework #5          */
+/*                style.js                      */
+
+
+/*********************** general styling ******************/
+
+body
+{
+	background-image: url("../images/bg.jpg");
+	margin-top: 20px;
+
+}
+
+.btn
+{
+	width:200px;
+}
+
+/*class set opacity to background only*/
+.transparent
+{background: rgba(255,255,255,0.8);}
+
+.jumbotron h1,
+.jumbotron p
+{
+
+	font-weight: 900;
+}
+
+.jumbotron p
+{
+	font-size: 2em;
+
+}
+
+.panel-body
+{
+	background: gray;
+	height: 400px;
+	margin-bottom: 50px;
+	border-radius: 25px;
+}
+
+#newgame
+{
+
+}
