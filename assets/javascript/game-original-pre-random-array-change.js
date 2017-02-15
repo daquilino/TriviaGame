@@ -3,18 +3,15 @@
 /*                game.js                      */
 
 
-/*	==============	TO DO   ========================
-	get flags (maybe country pics)
-	sort html (instructions, questions, answer/results divs)
-
-
+/*	==============	NOTES  ==========================
+	populateCoices needs going over. debug random part
+	
 
 	
 ====================== pseudo code ====================
 
-	done 1.) show instructions with play button.
-	
-	2.) when Play button pressed it hides, shows question
+	1.) show instructions with play button.
+	2.) when Play button pressed it hides shows question
 	3.)  ---------- Question -----
 		a.) getQuestion()
 			randomly generates question:
@@ -51,7 +48,21 @@
 				main function runs rest of program.
 
 ====================================================================
-					
+					to generate random choices, #c1,#c2,#c3,#c4
+			get random number 1 to 4.
+			put answer there.
+
+			x = random number
+			$("#c" + x).html(flags[randomIndex].getCountry);
+
+			for (var i = 1; i < 5)
+			{
+				if ( i != x)
+				{
+					$("#c" + x).html(flags[Math.floor(Math.random()*flags.length)].getCountry);
+				}
+
+			}
 
 */
 
@@ -62,7 +73,7 @@
 var flags= [];	
 
 //Holds random index for flags array.
-var currentFlag = 0;
+var randomIndex = 0;
 
 // Keeps track of correct answers
 var correct = 0;
@@ -73,8 +84,6 @@ var incorrect = 0;
 // Keeps track of missed answers
 var missed = 0;
 
-
-//Remove Dont need anymore, 
 //Array to keeps track of asked questions. As not to repeat.
 var askedAlready = [];
 
@@ -122,29 +131,25 @@ var winLoseMiss = "";
 
 	//Flag objects declerations.	
 	//flag(image, country, motto)
-	var flag1 = new flag("flag1.png" ,"Australia");
-	var flag2 = new flag("flag2.png" ,"Belgium");
-	var flag3 = new flag("flag3.png" ,"Canada");
-	var flag4 = new flag("flag4.png" ,"China");
-	var flag5 = new flag("flag5.png" ,"France");
-	var flag6 = new flag("flag6.png" ,"Germany");
-	var flag7 = new flag("flag7.png" ,"Ghana");
-	var flag8 = new flag("flag8.png" ,"Greece");
-	var flag9 = new flag("flag9.png" ,"India");
-	var flag10 = new flag("flag10.png" ,"Italy");
-	var flag11 = new flag("flag11.png" ,"Japan");
-	var flag12 = new flag("flag12.png" ,"Macedonia");
-	var flag13 = new flag("flag13.png" ,"Mexico");
-	var flag14 = new flag("flag14.png" ,"Poland");
-	var flag15 = new flag("flag15.png" ,"Russia");
-	var flag16 = new flag("flag16.png" ,"Saudi Arabia");
-	var flag17 = new flag("flag17.png" ,"South Korea");
-	var flag18 = new flag("flag18.png" ,"Thailand");
-	var flag19 = new flag("flag19.png" ,"UK");
-	var flag20 = new flag("flag20.png" ,"USA");
+	var flag1 = new flag("flag1.gif" ,"USA");
+	var flag2 = new flag("image2" ,"Spain");
+	var flag3 = new flag("image3" ,"Italy");
+	var flag4 = new flag("image4" ,"France");
+	var flag5 = new flag("image5" ,"Germany");
+	var flag6 = new flag("image6" ,"UK");
+	var flag7 = new flag("image7" ,"Portugal");
+	var flag8 = new flag("image8" ,"Mexico");
+	var flag9 = new flag("image9" ,"Canada");
+	var flag10 = new flag("image10" ,"country10");
 	
 	
-	
+	//Puts flag objects in "flags" array.
+	for(var i = 1;i < 11;i++)
+	{
+		flags.push(window["flag" + i]);
+
+	}
+
 
 //================== document.ready ==============================
 	
@@ -152,20 +157,21 @@ $(document).ready(function()
 {
 	
 	
-	fillFlags();//test code remove
-	
 	$("#play").on("click" , function()
 	{
-		
-		getQuestion(); //test code remove
-
 		//$("#play").html("Play Again").css("visibility","hidden");
-		//game(); 
-		
-
-					
+		//resetGame();
+		//startGame();				
 
 	});//END $("#play").click
+
+	
+	
+
+
+
+
+
 
 	
 
@@ -224,39 +230,34 @@ $(document).ready(function()
 
 
 
+		
+		
+		
+
+		//game(); // test display
+		
+		$("#answer").click(clickedAnswer);
+
+
 });//END $(document).ready
 
-
-//===================== Global Functions ============================
-
-//Returns a random flag object from flags.
-//Then removes that flag object from flags array.
+//Returns a random number between 0 and flags.length.
+//Checks if number was already used.  If not pushes to "askedAlready".
+//If number already used. Calls randomFlag until unique number. 
 function randomFlag()
 {
 	var index = Math.floor(Math.random()* flags.length);
 
-	var tempFlag = flags[index];
-	
-	//removes flags[index] from flags.
-	flags.splice(index, 1);
+	if(askedAlready.indexOf(index) > -1)
+	{
 
-	return tempFlag;
+		randomFlag();
+		return index;
+	}	
+		askedAlready.push(index);
+		return index;
 
 }//END randomFlag()
-
-//==========================================================
-
-////Puts flag objects in "flags" array.
-function fillFlags()
-{
-	for(var i = 1;i < 21; i++)            //change for # final flags
-	{
-		flags.push(window["flag" + i]);
-
-	}
-
-}//END fillFlags
-
 
 //==========================================================
 
@@ -266,14 +267,12 @@ function gameReset()
 	correct = 0;
 	incorrect = 0;
 	missed = 0;
-	currentFlag = 0;
+	askedAlready = [];
 	numQuestions = 10;
-	fillFlags();
 
 }//END gameReset
 
 //===================================
-
 function stopInterval()
 {
 	console.log("interval stopped");
@@ -294,7 +293,7 @@ function game()
 
 
 
-	//Counter for setInterval/clearInterval
+	//Counter for setInterval/clrearInterval
 	var time = 15;//seconds
 
 	
@@ -339,33 +338,21 @@ $("#question").html(numQuestions);//Test Code
 //	
 // call game()
 
+
 function clickedAnswer()
-{	
-	var messege="";	
-
-	stopInterval(intervalId);
-	numQuestions--;
-
-	//	put code here to check answer
-	if (true)
-	{
-		messege = "CORRECT!";
-		correct++;
-	}
-	else
-	{
-		messege = "WRONG!";
-		incorrect++;
-	}
+{
 		
-		showAnswer(messege);
-					
-		$("#time").html(15);// move to game?
-		
+		stopInterval();
+		numQuestions--;
+		//	put code here to check answer
+		//
+		$("#win-lose").html("clicked answer");//testcode			
+		$("#time").html(15);
 		setTimeout(function() 
 		{
 			if(numQuestions > 0)
 			{
+				$("#win-lose").html("");//testcode
 				game();
 			}
 
@@ -373,93 +360,36 @@ function clickedAnswer()
 
 }//END clickedAnswer
 
-//===========================================================
-
-//DONE!
-//	Sets up answer choices.
-function populateAnswers()
+// this works.  Check into random part.
+function populateChoices()
 {
-	// Gets a random .answers <p>. Puts currentFlag country in it
-	var x = Math.floor((Math.random()*4)+1);
-	$("#a" + x).html(currentFlag.getCountry());	
-	
-	//Array to store already used countries	
-	var usedIndexes=[]
-
-	//Holds random index
+	x = Math.floor((Math.random()*4)+1);
+		
+	var tempArray = [randomIndex];
 	var tempRandIndex = 0;
+	randomIndex = randomFlag();// this will be in other function
 			
-	// Loops through numbers 1-4 used for .answers <p>s ids. 
+	$("#c" + x).html(flags[randomIndex].getCountry());
+	
 	for (var i = 1; i < 5; i++)		
 	{
-		
-		//If .answers <p> not already populated, populate it.
-		if(i !=x)
-		{						
-			// gets a unique random index for flag object.		
-			do
-			{
-				tempRandIndex = Math.floor(Math.random()*flags.length);
-			}
-			while(usedIndexes.indexOf(tempRandIndex) > -1);
+						
+		do
+		{
+			tempRandIndex = Math.floor(Math.random()*flags.length);
+		}
+		while(tempArray.indexOf(tempRandIndex) > -1);
 
-			//pushes randomIndex to usedIndexes
-			usedIndexes.push(tempRandIndex);
-			
-			//Displays country of random flag in .answers <p>
-			//with id of #a'i'
-			$("#a" + i).html(flags[tempRandIndex].getCountry());		
+
+		if(i !=x)
+		{				
+			$("#c" + i).html(flags[tempRandIndex].getCountry);
+			tempArray.push(tempRandIndex);
 		}
 
-	}//END for
-	
-}//END populateAnswers
-
-//================================================================
-
-//DONE!
-//Generates random questions and answer choices.
-function getQuestion()
-{
-	//Assigns currentFlag a random flag
-	currentFlag = randomFlag();
-	
-	//Displays currentFlag
-	$("#flag-image").attr("src","assets/images/" + currentFlag.getImage());
-	
-	//Populates Answer choices.
-	populateAnswers();
-}
-
-//=====================================================
-
-//DONE!
-//description
-function showAnswer(messege)
-{
-	
-	var results = "<span class='glyphicon glyphicon-flag'></span>" +
-				  " <p>" + messege + "</p>" + 
-				  " <p>Answer: " + currentFlag.getCountry() + "</p>";
-
-	$("#results-panel").html(results);
-	$("#results-panel").css("visibility", "inherit");
-}//END showAnswer
-
-//============================================================
-
-//DONE!
-//description
-function showResults()
-{	
-	var results = "<p>Correct: " + correct + "</p>" +
-				  " <p>Incorrect: " + incorrect + "</p>" + 
-				  " <p>Misses: " + missed + "</p>";
-
-	$("#results-panel").html(results);
-	$("#results-panel").css("visibility", "visible");
-	$("#play").css("visibility","visible");
-}//END showResults
+	}//END For
+	console.log("tempArray :" + tempArray);
+}//END populateChoices
 
 
 

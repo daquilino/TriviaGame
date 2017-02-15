@@ -17,6 +17,7 @@ body
 	width:200px;
 	color: black;
 	background: white;
+	border: 1px solid black;
 }
 .btn:hover
 {
@@ -50,7 +51,12 @@ body
 	font-weight: 900;
 }
 
-#title{margin-top:0px;}
+#title
+{
+	margin-top:0px;
+ 	color: darkblue;
+	font-family:Impact,sans-serif;
+ }
 
 .jumbotron p
 {
@@ -91,12 +97,16 @@ body
 	/*visibility: hidden;*/
 }
 
-#flag
+#flag-image
 {
-	width:200px;
-	height:150px;
-	margin-bottom: 10px;
-	border-radius: 10px;
+	width:250px;
+	margin: 0 auto;
+	border: 1px solid white;
+}
+
+#flag-div
+{
+	height:170px;
 }
 
 
@@ -104,20 +114,33 @@ body
 #results-panel
 {
 	z-index: 200;
+	padding-top: 100px;
 	visibility: hidden;
 }
 
-p.choice
+#results-panel p
+{
+	font-size: 3em;
+}
+
+p.answers
 {
 	margin: 5px auto;
-	width:300px;              /* Change this */
+	width:300px;              
 	font-size: 1.5em;
 	border-radius: 10px;
 }
 
-p.choice:hover
+p.answers:hover
 {
 	color:black;
 	background:white;
 }
+
+.center-block
+{
+
+	float: none;
+}
+
 
