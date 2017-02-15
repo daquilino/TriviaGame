@@ -4,10 +4,11 @@
 
 
 /*	==============	NOTES  ==========================
-	populateCoices needs going over. debug random part
-	
 
-	
+	instructions in jumbotron/or panel.
+	"play" button instructions replaced by game. 
+
+	div1, div2 css width,
 ====================== pseudo code ====================
 
 	1.) show instructions with play button.
@@ -46,24 +47,6 @@
 				generates question. displays it.
 			game() 
 				main function runs rest of program.
-
-====================================================================
-					to generate random choices, #c1,#c2,#c3,#c4
-			get random number 1 to 4.
-			put answer there.
-
-			x = random number
-			$("#c" + x).html(flags[randomIndex].getCountry);
-
-			for (var i = 1; i < 5)
-			{
-				if ( i != x)
-				{
-					$("#c" + x).html(flags[Math.floor(Math.random()*flags.length)].getCountry);
-				}
-
-			}
-
 */
 
 
@@ -93,7 +76,6 @@ var numQuestions = 10;
 //Stores the Id for setInterval()
 var intervalId = 0;
 
-var winLoseMiss = "";
 
 
 
@@ -104,7 +86,7 @@ var winLoseMiss = "";
 		//private
 		const IMAGE = image;
 		const COUNTRY = country;
-		
+		const MOTTO = motto;
 
 		// =============== flag object methods ===================
 
@@ -126,21 +108,28 @@ var winLoseMiss = "";
 
 		//=======================================
 
-		
+		//returns objects MOTTO property value
+		this.getMotto = function()
+		{
+			return MOTTO;
+		}//END getMotto
+	
+		//=======================================
+
 	};// END flag
 
 	//Flag objects declerations.	
 	//flag(image, country, motto)
-	var flag1 = new flag("flag1.gif" ,"USA");
-	var flag2 = new flag("image2" ,"Spain");
-	var flag3 = new flag("image3" ,"Italy");
-	var flag4 = new flag("image4" ,"France");
-	var flag5 = new flag("image5" ,"Germany");
-	var flag6 = new flag("image6" ,"UK");
-	var flag7 = new flag("image7" ,"Portugal");
-	var flag8 = new flag("image8" ,"Mexico");
-	var flag9 = new flag("image9" ,"Canada");
-	var flag10 = new flag("image10" ,"country10");
+	var flag1 = new flag("flag1.gif" ,"USA" ,"E pluribus unum");
+	var flag2 = new flag("image2" ,"Spain" ,"motto2");
+	var flag3 = new flag("image3" ,"Italy" ,"motto3");
+	var flag4 = new flag("image4" ,"France" ,"motto4");
+	var flag5 = new flag("image5" ,"Germany" ,"motto5");
+	var flag6 = new flag("image6" ,"UK" ,"motto6");
+	var flag7 = new flag("image7" ,"Portugal" ,"motto7");
+	var flag8 = new flag("image8" ,"Mexico" ,"motto8");
+	var flag9 = new flag("image9" ,"Canada" ,"motto9");
+	var flag10 = new flag("image10" ,"country10" ,"motto10");
 	
 	
 	//Puts flag objects in "flags" array.
@@ -159,15 +148,25 @@ $(document).ready(function()
 	
 	$("#play").on("click" , function()
 	{
-		//$("#play").html("Play Again").css("visibility","hidden");
-		//resetGame();
-		//startGame();				
+		
+				clearInterval(interval);
+		// $(this).hide();// use visibility hide so still in flow.
+		// $("#newgame").show();
+		
+
+
 
 	});//END $("#play").click
 
-	
+	$("#newgame").on("click", function()
+	{
+		
 	
 
+		// $(this).hide();
+		// $("#play").show();
+
+	});//END $("#play").click
 
 
 
@@ -234,8 +233,9 @@ $(document).ready(function()
 		
 		
 
-		//game(); // test display
-		
+		game(); // test display
+		console.log("After Interval"); // this runs
+
 		$("#answer").click(clickedAnswer);
 
 
@@ -277,31 +277,61 @@ function stopInterval()
 {
 	console.log("interval stopped");
 	clearInterval(intervalId);
-	//answerFlag = true;    Dont think I need
+	answerFlag = true;
 
 }//END stopInterval
 
 //===================================
 
-function game()
+
+//problem when set interval is cleared
+//code is not called.
+//maybe put code inside in function that is ran checking a flag
+//in answer button.  example if(interval stopped ... run function
+function origGame()
 {
-	/*
-		
-
-
-	*/
-
-
-
 	//Counter for setInterval/clrearInterval
 	var time = 15;//seconds
 
+	$("#question").html(numQuestions);
 	
-//	question(); //Builds and displays random question.
-	
-$("#question").html(numQuestions);//Test Code
-	
-	$("#time").html(time);
+	intervalId = setInterval(function()
+	{
+		time--;
+		$("#time").html(time);
+		if(time == 0)
+		{	
+			clearInterval(intervalId);
+			console.log("Times Up")
+			numQuestions--;
+					
+			setTimeout(function() 
+			{
+				if(numQuestions > 0)
+				{
+					game();
+				}
+
+			}, 5000);//END setTimeout
+								
+		}//END if
+
+	},1000);//END setInterval
+
+
+			
+}//End display
+
+//=====================================================
+
+var answerFlag = false;
+
+function game()
+{
+	//Counter for setInterval/clrearInterval
+	var time = 15;//seconds
+
+	$("#question").html(numQuestions);
 	
 	intervalId = setInterval(function()
 	{
@@ -341,7 +371,7 @@ $("#question").html(numQuestions);//Test Code
 
 function clickedAnswer()
 {
-		
+		console.log("this executes");
 		stopInterval();
 		numQuestions--;
 		//	put code here to check answer
@@ -358,38 +388,7 @@ function clickedAnswer()
 
 		}, 5000);//END setTimeout
 
-}//END clickedAnswer
-
-// this works.  Check into random part.
-function populateChoices()
-{
-	x = Math.floor((Math.random()*4)+1);
-		
-	var tempArray = [randomIndex];
-	var tempRandIndex = 0;
-	randomIndex = randomFlag();// this will be in other function
-			
-	$("#c" + x).html(flags[randomIndex].getCountry());
-	
-	for (var i = 1; i < 5; i++)		
-	{
-						
-		do
-		{
-			tempRandIndex = Math.floor(Math.random()*flags.length);
-		}
-		while(tempArray.indexOf(tempRandIndex) > -1);
-
-
-		if(i !=x)
-		{				
-			$("#c" + i).html(flags[tempRandIndex].getCountry);
-			tempArray.push(tempRandIndex);
-		}
-
-	}//END For
-	console.log("tempArray :" + tempArray);
-}//END populateChoices
+}
 
 
 

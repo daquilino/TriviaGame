@@ -9,40 +9,115 @@ body
 {
 	background-image: url("../images/bg.jpg");
 	margin-top: 20px;
-
 }
 
 .btn
 {
+	font-weight: 600;
 	width:200px;
+	color: black;
+	background: white;
+}
+.btn:hover
+{
+	color:white;
+	background: black;
 }
 
+.btn:active
+{
+	color: black;
+	background: white;
+
+}
+
+
 /*class set opacity to background only*/
-.transparent
-{background: rgba(255,255,255,0.8);}
+.transparent {background: rgba(255,255,255,0.8);}
+
+.jumbotron
+{
+	padding-top: 0px;
+	padding-bottom:30px;
+	max-height: 650px;  
+	position:relative;
+	z-index: 1;
+}
 
 .jumbotron h1,
 .jumbotron p
 {
-
 	font-weight: 900;
 }
+
+#title{margin-top:0px;}
 
 .jumbotron p
 {
 	font-size: 2em;
-
 }
 
 .panel-body
 {
-	background: gray;
-	height: 400px;
-	margin-bottom: 50px;
+	background: black;
+	height: 420px;
+	margin-bottom: 30px;
 	border-radius: 25px;
+	color: white;	
 }
 
-#newgame
+#instructions-panel
+{
+	/*visibility: hidden;*/
+}
+
+#instructions-panel, #question-panel, #results-panel
+{
+	width: 100%;
+	position:relative;
+
+}
+
+
+/****************    results panel style ***************************/
+#question-panel, #results-panel
 {
 
+	z-index: 100;
+	position: absolute;
+	top: 0px;
+	left:0px;
+
+	/*visibility: hidden;*/
 }
+
+#flag
+{
+	width:200px;
+	height:150px;
+	margin-bottom: 10px;
+	border-radius: 10px;
+}
+
+
+/****************    results panel style ***************************/
+#results-panel
+{
+	z-index: 200;
+	visibility: hidden;
+}
+
+p.choice
+{
+	margin: 5px auto;
+	width:300px;              /* Change this */
+	font-size: 1.5em;
+	border-radius: 10px;
+}
+
+p.choice:hover
+{
+	color:black;
+	background:white;
+}
+

@@ -33,54 +33,63 @@ On the final screen, show the number of correct answers, incorrect answers, and 
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-
 </head>
 
 <body>
 		
-
 	<div class="container">
 		
 		<!--##########~~~~~~ Main Panel ~~~~~~##########-->
-		<div class="jumbotron text-center transparent">
-			<h1 id="title">Countries Flags &amp; Mottos</h1>
+		<div class="jumbotron text-center transparent" id="main">
 			
-			
-			
-				<!-- <div class="center-block panel panel-info text-center panel-transparent" id="instructions-panel"> -->
-				
+			<h1 id="title">Country Flags Trivia </h1>		
 						
-				<div class="panel-body" id="jumbotron-body">
+			<div class="panel-body" id="instructions-panel">
 					
 
-					<p>You will be shown a country's flag and motto.</p>
+				<p>You will be shown a country's flag and motto.</p>
 					
-					<p>You will have 15 seconds to choose the country they belong to.</p>
+				<p>You will have 15 seconds to choose the country they belong to.</p>
 
-					<p>Time Remaining: <span id="time">15</span> seconds</p>	
+				<div class="panel-body text-center" id="question-panel">
+					
+					<p>Time Remaining: <span id="time">15</span> seconds</p>
 
-					<p>Question <span id="question"></span></p>
+					<img src="assets/images/flag1.gif" alt="flag" id="flag">	
+					
+						<p class="choice" id="c1">1</p>
+						<p class="choice" id="c2">2</p>	
+						<p class="choice" id="c3">3</p>    
+						<p class="choice" id="c4">4</p>
+					
+	
+				</div><!-- END #question-panel -->
 
-					<p id="win-lose"></p>	
+				<div class="panel-body text-center " id="results-panel">
+					<p>results-panel</p>
+					
+					<!-- add two divs
+							div1 for win loose missed, or resluts
+							div2 for correct answer.
+					-->		
+				</div><!-- END #results-panel -->
 
-					<button id="answer">answer</button>		
+			</div> <!-- END #instructions -->
+
+
+			
+			<!-- Test remove
+			<div class="panel-body" id="questions"></div>
+			<div class="panel-body" id="answer-result"></div> -->
 				
-
-				</div> <!-- END #jumbotron-body -->
-				
-				<!-- </div> --><!-- END panel #instructions-panel  -->
-		
 
 			<div class="row" id="buttons">	
 					
-				<button class="btn btn-info btn-lg" id="play">Play</button>
-				
-				<button class="btn btn-info btn-lg" id="newgame">New Game</button>
+				<button class="btn btn-lg" id="play">Play</button>
 					
 			</div><!-- END div #buttons -->
 		
 		</div><!-- END jumbotron  -->
-		
 
 	</div><!-- END .container-fluid -->
 
