@@ -23,7 +23,7 @@ On the final screen, show the number of correct answers, incorrect answers, and 
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>Trivia Game</title>
+	<title>World Flags Trivia</title>
 	
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	
@@ -39,18 +39,29 @@ On the final screen, show the number of correct answers, incorrect answers, and 
 		
 	<div class="container">
 		
-		<!--##########~~~~~~ Main Panel ~~~~~~##########-->
-		<div class="jumbotron text-center transparent" id="main">
+		<!--##########~~~~~~ #main Jumbotron ~~~~~~##########-->
+		<div class="jumbotron  text-center transparent" id="main">
 			
-			<h1 id="title">Country Flags Trivia </h1>		
-						
+			<h1 id="title">World Flags Trivia </h1>		
+			
+		<!--######~~~~~~ #instructions-panel ~~~~~~#######-->			
 			<div class="panel-body" id="instructions-panel">
 					
-
-				<p>You will be shown a country's flag and motto.</p>
+				<ul class="list-group">
+				
+					<li>You will be shown 10 random flags.</li>
 					
-				<p>You will have 15 seconds to choose the country they belong to.</p>
+					<li>You will have 15 seconds to answer which country each flag belongs to.</li>
 
+					<li>When answered or when time run out, correct answer is shown.</li>
+
+					<li>After all 10 flags are asked, your results will be displayed.</li>
+
+					<li>Click "Play" to start.</li>
+				</ul>
+				
+		<!--######~~~~~~ #questions-panel ~~~~~~#######-->		
+			
 				<div class="panel-body text-center" id="question-panel">
 					
 					<p>Time Remaining: <span id="time">15</span> seconds</p>
@@ -64,18 +75,19 @@ On the final screen, show the number of correct answers, incorrect answers, and 
 					<p class="answers" id="a3">3</p>    
 					<p class="answers" id="a4">4</p>
 					
-	
 				</div><!-- END #question-panel -->
-
+		
+		<!--######~~~~~~ #results-panel ~~~~~~#######-->
+			
 				<div class="panel-body text-center" id="results-panel">
-					
-					
+									
 				</div><!-- END #results-panel -->
 
+		
 			</div> <!-- END #instructions -->
-
-
-						
+					
+		<!--######~~~~~~ #buttons ~~~~~~#######-->	
+		
 			<div class="row" id="buttons">	
 					
 				<button class="btn btn-lg" id="play"> Play </button>

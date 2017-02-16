@@ -32,9 +32,8 @@ body
 
 }
 
-
 /*class set opacity to background only*/
-.transparent {background: rgba(255,255,255,0.8);}
+.transparent {background: rgba(65,74,76,0.8);} /*255,255,255*/
 
 .jumbotron
 {
@@ -54,7 +53,7 @@ body
 #title
 {
 	margin-top:0px;
- 	color: darkblue;
+ 	color: red;			/*darkblue*/
 	font-family:Impact,sans-serif;
  }
 
@@ -74,7 +73,8 @@ body
 
 #instructions-panel
 {
-	/*visibility: hidden;*/
+	z-index: 1;
+	padding-top:30px;
 }
 
 #instructions-panel, #question-panel, #results-panel
@@ -84,17 +84,14 @@ body
 
 }
 
-
 /****************    results panel style ***************************/
 #question-panel, #results-panel
 {
-
 	z-index: 100;
 	position: absolute;
 	top: 0px;
 	left:0px;
-
-	/*visibility: hidden;*/
+	visibility: hidden;
 }
 
 #flag-image
@@ -109,13 +106,11 @@ body
 	height:170px;
 }
 
-
 /****************    results panel style ***************************/
 #results-panel
 {
 	z-index: 200;
 	padding-top: 100px;
-	visibility: hidden;
 }
 
 #results-panel p
@@ -143,4 +138,23 @@ p.answers:hover
 	float: none;
 }
 
+
+li {
+    /*display: block;*/
+    font-size: 2em;
+    line-height: 2em;
+    color: red;
+}
+
+li:before {
+    /*Using a Bootstrap glyphicon as the bullet point*/
+    content: "\e034";
+    font-family: 'Glyphicons Halflings';
+    font-size: 18px;
+    /*float: left;*/
+    margin-top: 4px;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: blue;
+}
 

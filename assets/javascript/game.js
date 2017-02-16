@@ -3,101 +3,39 @@
 /*                game.js                      */
 
 
-/*	==============	TO DO   ========================
-	get flags (maybe country pics)
-	sort html (instructions, questions, answer/results divs)
-
-
-
-	
-====================== pseudo code ====================
-
-	done 1.) show instructions with play button.
-	
-	2.) when Play button pressed it hides, shows question
-	3.)  ---------- Question -----
-		a.) getQuestion()
-			randomly generates question:
-				shows pic randomized answers.
-		b.) If time runs out.
-			missed++, display times Up. show answer. 
-			call next question if questions left > 0 else display results.
-				
-
-		c.) If button clicked.
-			Stop interval. checkAnswer.
-				if correct wins++. "Correct"! show answer.
-				if incorrect losses++. "Wrong"! show answer.
-			call next question if questions left >0 else display results.
-
-	4.) On results screen show "play again" button.
-			runs resetGame(); starts again #3
-
-
-			*FUNCTIONS*
-
-			checkAnswer();
-				checks $(this).HTML() with flags[index].getCountry.
-				returns true or false.
-			
-			showResults()
-				displays "play again" button. wins, losses, missed.
-
-			showAnswer() //how to differentiate miss, win ,loss?
-				displays answer in correct div.
-			question()
-				generates question. displays it.
-			game() 
-				main function runs rest of program.
-
-====================================================================
-					
-
-*/
-
-
 // Global Variable Declarations
 
-// Array of flag objects
-var flags= [];	
+	// Array of flag objects
+	var flags= [];	
 
-//Holds random index for flags array.
-var currentFlag = 0;
+	//Holds current flag object for question.
+	var currentFlag = 0;
 
-// Keeps track of correct answers
-var correct = 0;
+	// Keeps track of correct answers
+	var correct = 0;
 
-// Keeps track of incorrect answers
-var incorrect = 0;
+	// Keeps track of incorrect answers
+	var incorrect = 0;
 
-// Keeps track of missed answers
-var missed = 0;
+	// Keeps track of missed answers
+	var missed = 0;
 
+	//Assigns the number of questions to be asked each game.
+	var numQuestions = 10;
 
-//Remove Dont need anymore, 
-//Array to keeps track of asked questions. As not to repeat.
-var askedAlready = [];
-
-//Assigns the number of questions to be asked each game.
-var numQuestions = 10;
-
-//Stores the Id for setInterval()
-var intervalId = 0;
-
-var winLoseMiss = "";
-
+	//Stores the Id for setInterval()
+	var intervalId = 0;
 
 
 // flag object constructor
 	function flag(image, country, motto)
 	{
-		// =============== flag object properties =================	
+	// ===== flag object properties =========	
 		//private
 		const IMAGE = image;
 		const COUNTRY = country;
 		
-
-		// =============== flag object methods ===================
+	// ==== flag object methods =============
 
 		//=======================================
 
@@ -118,10 +56,11 @@ var winLoseMiss = "";
 		//=======================================
 
 		
-	};// END flag
+	};// END flag object constructor
+
 
 	//Flag objects declerations.	
-	//flag(image, country, motto)
+	//flag(image, country)
 	var flag1 = new flag("flag1.png" ,"Australia");
 	var flag2 = new flag("flag2.png" ,"Belgium");
 	var flag3 = new flag("flag3.png" ,"Canada");
@@ -144,85 +83,24 @@ var winLoseMiss = "";
 	var flag20 = new flag("flag20.png" ,"USA");
 	
 	
-	
-
 //================== document.ready ==============================
 	
 $(document).ready(function()
 {
-	
-	
-	fillFlags();//test code remove
-	
+	//Event handler when #play button clicked
 	$("#play").on("click" , function()
 	{
+		resetGame();
 		
-		getQuestion(); //test code remove
-
-		//$("#play").html("Play Again").css("visibility","hidden");
-		//game(); 
+		//Changes #play button to "Play Again" and Hides it. 
+		$("#play").html("Play Again").css("visibility","hidden");
 		
-
-					
-
+		game();
+		
 	});//END $("#play").click
 
-	
-
-
-//============= pseudo code for timers =================
-	/*
-		
-		function somefunction()
-		{
-			var time = 20;
-			displayRandomQuestion();
-			run setinterval for question time
-			{
-				time--;
-				display time;
-
-			}
-				
-			if timer runs out
-			{
-				clearInterval
-				show you missed
-				missed++;
-			}
-			
-			answer.on("click)
-			{
-				clearInterval
-				if correct
-				{
-					correct++;
-					show you are correct
-				}
-				else incorrect
-				{
-					incorrect++;
-					show you are incorrect
-				}
-			}//END answer.on("click)
-				
-
-			show win/lose/miss  and answer when timer ends
-
-			setTimeOut for 5 seconds
-			{
-				
-				somefuntion();
-
-			}
-
-
-		}//END somefunction
-//====================== end Timer pseudo code =============
-
-	*/	
-
-
+	//Event handler when answer is clicked.
+	$(".answers").on("click" , clickedAnswer);
 
 });//END $(document).ready
 
@@ -246,13 +124,12 @@ function randomFlag()
 
 //==========================================================
 
-////Puts flag objects in "flags" array.
+//Assigns flag objects to "flags" array.
 function fillFlags()
 {
 	for(var i = 1;i < 21; i++)            //change for # final flags
 	{
 		flags.push(window["flag" + i]);
-
 	}
 
 }//END fillFlags
@@ -260,94 +137,102 @@ function fillFlags()
 
 //==========================================================
 
-//Resets variables to initial state
-function gameReset()
+//Resets variables and elements to initial state
+function resetGame()
 {
+	//resets variables
 	correct = 0;
 	incorrect = 0;
 	missed = 0;
 	currentFlag = 0;
 	numQuestions = 10;
-	fillFlags();
+	fillFlags(); //resets flags array
 
-}//END gameReset
+	//rests element visibilities
+	$("#question-panel").css("visibility", "hidden");
+	$("#results-panel").css("visibility", "hidden");
+
+}//END resetGame
 
 //===================================
 
+// Stops setInterval with id intervalId
 function stopInterval()
 {
-	console.log("interval stopped");
 	clearInterval(intervalId);
-	//answerFlag = true;    Dont think I need
 
 }//END stopInterval
 
 //===================================
 
+
+//NEEDS DESCRIPTION
 function game()
 {
-	/*
-		
+	//Checks if questions remaining.
+	if (numQuestions > 0)
+	{	
+		//Counter for setInterval/clearInterval
+		var time = 15; //seconds
 
-
-	*/
-
-
-
-	//Counter for setInterval/clearInterval
-	var time = 15;//seconds
-
-	
-//	question(); //Builds and displays random question.
-	
-$("#question").html(numQuestions);//Test Code
-	
-	$("#time").html(time);
-	
-	intervalId = setInterval(function()
-	{
-		time--;
 		$("#time").html(time);
-		if(time == 0)
-		{	
-			clearInterval(intervalId);
-		
-		$("#win-lose").html("Times UP!");//testcode
-			numQuestions--;
-					
-			setTimeout(function()    // put this in function?
-			{
-				if(numQuestions > 0)
-				{
-					game();
-				}
-				$("#win-lose").html("");//testcode
-			}, 5000);//END setTimeout
-								
-		}//END if
 
-	},1000);//END setInterval
-
+		//$("#left").html(numQuestions - 1);   may not use 
 	
+		getQuestion();
 
+		//code in function runs every 1s until "time = 0".
+		intervalId = setInterval(function()
+		{
+			//decrements and displays time	
+			time--;
+			$("#time").html(time);
+			
+			//when time runs out
+			if(time == 0)
+			{	
+				clearInterval(intervalId);
+		
+				showAnswer("TIMES UP!");
+
+				numQuestions--;
+					
+				missed++;	
+				
+				//waits 4s then calls game()
+				setTimeout(function()   
+				{
+					game();	
+				
+				}, 4000);//END setTimeout
+								
+			}//END if
+
+		},1000);//END setInterval
+
+	}//END if
+	else  // if no more questions left.
+	{
+		showResults();
+	}
 			
 }//End game
 //===================================================
 
-// stop interval
-// check answer
-//	
-// call game()
-
+//Called when answer is clicked.
+//checks if answer is correct or not.
+//displays proper messege
 function clickedAnswer()
 {	
+	//used to set messege
 	var messege="";	
 
 	stopInterval(intervalId);
+	
 	numQuestions--;
 
-	//	put code here to check answer
-	if (true)
+	//	code to check if answer is correct
+	if ($(this).html() == currentFlag.getCountry())
 	{
 		messege = "CORRECT!";
 		correct++;
@@ -356,26 +241,21 @@ function clickedAnswer()
 	{
 		messege = "WRONG!";
 		incorrect++;
-	}
+	}	
 		
-		showAnswer(messege);
-					
-		$("#time").html(15);// move to game?
+	showAnswer(messege);
 		
-		setTimeout(function() 
-		{
-			if(numQuestions > 0)
-			{
-				game();
-			}
+	//waits 4s then calls game()
+	setTimeout(function() 
+	{	
+		game();
 
-		}, 5000);//END setTimeout
+	}, 4000);//END setTimeout
 
 }//END clickedAnswer
 
 //===========================================================
 
-//DONE!
 //	Sets up answer choices.
 function populateAnswers()
 {
@@ -417,15 +297,17 @@ function populateAnswers()
 
 //================================================================
 
-//DONE!
-//Generates random questions and answer choices.
+//Generates random question.
 function getQuestion()
 {
+	$("#results-panel").css("visibility", "hidden");
+	$("#question-panel").css("visibility", "visible");
+
 	//Assigns currentFlag a random flag
 	currentFlag = randomFlag();
 	
 	//Displays currentFlag
-	$("#flag-image").attr("src","assets/images/" + currentFlag.getImage());
+	$("#flag-image").attr("src","assets/images/flags/" + currentFlag.getImage());
 	
 	//Populates Answer choices.
 	populateAnswers();
@@ -433,23 +315,21 @@ function getQuestion()
 
 //=====================================================
 
-//DONE!
-//description
+//Sets html to results-panel to display correct answer.
 function showAnswer(messege)
 {
-	
-	var results = "<span class='glyphicon glyphicon-flag'></span>" +
-				  " <p>" + messege + "</p>" + 
-				  " <p>Answer: " + currentFlag.getCountry() + "</p>";
+	var results = "<br>" +
+				  "<p>" + messege + "</p>" + 
+				  "<p>Answer: " + currentFlag.getCountry() + "</p>";
 
 	$("#results-panel").html(results);
-	$("#results-panel").css("visibility", "inherit");
+	$("#results-panel").css("visibility", "visible");
 }//END showAnswer
 
 //============================================================
 
-//DONE!
-//description
+//Sets html of #results-panel to display game results.
+//Shows #play button.
 function showResults()
 {	
 	var results = "<p>Correct: " + correct + "</p>" +
@@ -458,6 +338,7 @@ function showResults()
 
 	$("#results-panel").html(results);
 	$("#results-panel").css("visibility", "visible");
+	
 	$("#play").css("visibility","visible");
 }//END showResults
 
