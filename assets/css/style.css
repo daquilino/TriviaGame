@@ -53,7 +53,7 @@ body
 #title
 {
 	margin-top:0px;
- 	color: red;			/*darkblue*/
+ 	color: #FFFF66;			/*darkblue*/
 	font-family:Impact,sans-serif;
  }
 
@@ -132,18 +132,13 @@ p.answers:hover
 	background:white;
 }
 
-.center-block
-{
-
-	float: none;
-}
+.center-block {float: none;}
 
 
 li {
-    /*display: block;*/
     font-size: 2em;
     line-height: 2em;
-    color: red;
+    color: #FFFF66;    /*red*/
 }
 
 li:before {

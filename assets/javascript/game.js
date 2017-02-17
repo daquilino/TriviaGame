@@ -2,6 +2,12 @@
 /*  RCB - "Trivia Game"    Homework #5         */
 /*                game.js                      */
 
+/*  	TO DO's
+		
+		instructions
+		colors - fonts - 
+		correct, incorrect animations?
+*/
 
 // Global Variable Declarations
 
@@ -60,16 +66,16 @@
 
 
 	//Flag objects declerations.	
-	//flag(image, country)
-	var flag1 = new flag("flag1.png" ,"Australia");
-	var flag2 = new flag("flag2.png" ,"Belgium");
-	var flag3 = new flag("flag3.png" ,"Canada");
-	var flag4 = new flag("flag4.png" ,"China");
-	var flag5 = new flag("flag5.png" ,"France");
-	var flag6 = new flag("flag6.png" ,"Germany");
-	var flag7 = new flag("flag7.png" ,"Ghana");
-	var flag8 = new flag("flag8.png" ,"Greece");
-	var flag9 = new flag("flag9.png" ,"India");
+	//               flag(image       , country)
+	var flag1  = new flag("flag1.png" ,"Australia");
+	var flag2  = new flag("flag2.png" ,"Belgium");
+	var flag3  = new flag("flag3.png" ,"Canada");
+	var flag4  = new flag("flag4.png" ,"China");
+	var flag5  = new flag("flag5.png" ,"France");
+	var flag6  = new flag("flag6.png" ,"Germany");
+	var flag7  = new flag("flag7.png" ,"Ghana");
+	var flag8  = new flag("flag8.png" ,"Greece");
+	var flag9  = new flag("flag9.png" ,"India");
 	var flag10 = new flag("flag10.png" ,"Italy");
 	var flag11 = new flag("flag11.png" ,"Japan");
 	var flag12 = new flag("flag12.png" ,"Macedonia");
@@ -115,7 +121,7 @@ function randomFlag()
 
 	var tempFlag = flags[index];
 	
-	//removes flags[index] from flags.
+	//removes flags[index] (tempFlag) from flags.
 	flags.splice(index, 1);
 
 	return tempFlag;
@@ -127,9 +133,13 @@ function randomFlag()
 //Assigns flag objects to "flags" array.
 function fillFlags()
 {
-	for(var i = 1;i < 21; i++)            //change for # final flags
+	//Clears out "flags" array
+	flags=[];
+	
+	//Assigns flag object
+	for(var i = 1;i < 21; i++)  //change for # final flags
 	{
-		flags.push(window["flag" + i]);
+		flags.push(window["flag" + i]); //window[] converts string to object
 	}
 
 }//END fillFlags
@@ -156,17 +166,14 @@ function resetGame()
 
 //===================================
 
-// Stops setInterval with id intervalId
-function stopInterval()
-{
-	clearInterval(intervalId);
-
-}//END stopInterval
-
-//===================================
-
-
-//NEEDS DESCRIPTION
+//Recursive function containing main logic of game.
+//Checks if any quesions left. If no, then displays results.
+//If yes, calls getQuestion() and uses setInterval as 15s timer.
+//Every 1000ms time decremented and displayed via jQuery.
+//When 'time=0' clearInterval() is called, showAnswer() is
+//called, question count is decremented and missed count is 
+//incremented.
+//Last setTimeout delays 4s then calls game();
 function game()
 {
 	//Checks if questions remaining.
@@ -181,14 +188,14 @@ function game()
 	
 		getQuestion();
 
-		//code in function runs every 1s until "time = 0".
+		//runs code in function every 1s until "time = 0".
 		intervalId = setInterval(function()
 		{
 			//decrements and displays time	
 			time--;
 			$("#time").html(time);
 			
-			//when time runs out
+			//when time runs out clear interval
 			if(time == 0)
 			{	
 				clearInterval(intervalId);
@@ -216,18 +223,18 @@ function game()
 		showResults();
 	}
 			
-}//End game
+}//END game
 //===================================================
 
-//Called when answer is clicked.
-//checks if answer is correct or not.
-//displays proper messege
+//Called when an answer is clicked.
+//Checks if answer is correct or not.
+//Displays proper messege.
 function clickedAnswer()
 {	
 	//used to set messege
 	var messege="";	
 
-	stopInterval(intervalId);
+	clearInterval(intervalId);
 	
 	numQuestions--;
 
@@ -256,7 +263,7 @@ function clickedAnswer()
 
 //===========================================================
 
-//	Sets up answer choices.
+//Sets up random answer choices for question.
 function populateAnswers()
 {
 	// Gets a random .answers <p>. Puts currentFlag country in it
@@ -287,7 +294,7 @@ function populateAnswers()
 			usedIndexes.push(tempRandIndex);
 			
 			//Displays country of random flag in .answers <p>
-			//with id of #a'i'
+			//with id of "#a" + i
 			$("#a" + i).html(flags[tempRandIndex].getCountry());		
 		}
 
