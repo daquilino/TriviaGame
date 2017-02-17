@@ -53,7 +53,7 @@ body
 #title
 {
 	margin-top:0px;
- 	color: #FFFF66;			/*darkblue*/
+ 	color: white;			
 	font-family:Impact,sans-serif;
  }
 
@@ -84,7 +84,7 @@ body
 
 }
 
-/****************    results panel style ***************************/
+/****************    question panel style ***************************/
 #question-panel, #results-panel
 {
 	z-index: 100;
@@ -94,23 +94,27 @@ body
 	visibility: hidden;
 }
 
-#flag-image
+#flag-image, #gif
 {
 	width:250px;
 	margin: 0 auto;
 	border: 1px solid white;
 }
 
-#flag-div
+#flag-div 
 {
 	height:170px;
+}
+#gif-div
+{
+	height: 180px;
 }
 
 /****************    results panel style ***************************/
 #results-panel
 {
 	z-index: 200;
-	padding-top: 100px;
+	padding-top: 10px;  /*was 100*/
 }
 
 #results-panel p
@@ -138,7 +142,7 @@ p.answers:hover
 li {
     font-size: 2em;
     line-height: 2em;
-    color: #FFFF66;    /*red*/
+    color:  white; 
 }
 
 li:before {
@@ -146,7 +150,6 @@ li:before {
     content: "\e034";
     font-family: 'Glyphicons Halflings';
     font-size: 18px;
-    /*float: left;*/
     margin-top: 4px;
     margin-left: 20px;
     margin-right: 20px;

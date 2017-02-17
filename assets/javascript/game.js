@@ -4,9 +4,10 @@
 
 /*  	TO DO's
 		
-		instructions
-		colors - fonts - 
-		correct, incorrect animations?
+		instructions - change from <ul> back to <p>?
+
+		colors - fonts 
+		clean up code - comment. 
 */
 
 // Global Variable Declarations
@@ -329,8 +330,25 @@ function showAnswer(messege)
 				  "<p>" + messege + "</p>" + 
 				  "<p>Answer: " + currentFlag.getCountry() + "</p>";
 
-	$("#results-panel").html(results);
+	$("#newresults").html(results);
 	$("#results-panel").css("visibility", "visible");
+	
+	//Displays .gif based on 'messege' value.
+	switch(messege)
+	{
+    case "CORRECT!":
+        $("#gif").attr("src", "assets/images/correct.gif");
+        break;
+    case "WRONG!":
+        $("#gif").attr("src", "assets/images/wrong.gif");
+        break;
+    default:
+        $("#gif").attr("src", "assets/images/time.gif");
+	}//END switch
+
+
+	
+
 }//END showAnswer
 
 //============================================================
@@ -340,10 +358,12 @@ function showAnswer(messege)
 function showResults()
 {	
 	var results = "<p>Correct: " + correct + "</p>" +
-				  " <p>Incorrect: " + incorrect + "</p>" + 
-				  " <p>Misses: " + missed + "</p>";
+				  " <p>Wrong: " + incorrect + "</p>" + 
+				  " <p>Missed: " + missed + "</p>";
 
-	$("#results-panel").html(results);
+
+	$("#newresults").html(results);
+	$("#gif").attr("src", "assets/images/results.gif");
 	$("#results-panel").css("visibility", "visible");
 	
 	$("#play").css("visibility","visible");
