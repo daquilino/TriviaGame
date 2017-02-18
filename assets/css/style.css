@@ -1,6 +1,6 @@
 /*  Douglas Aquilino       February 18, 2017    */
 /*  RCB - Trivia Game"     Homework #5          */
-/*                style.js                      */
+/*                style.css                     */
 
 
 /*********************** general styling ******************/
@@ -14,7 +14,6 @@ body
 /*class to set opacity to background only*/
 .transparent {background: rgba(65,74,76,0.8);}
 
-
 .center-block {float: none;}
 
 /******************* #title styling ******************/
@@ -27,6 +26,7 @@ body
  }
 
 /******************* #play button styling ******************/
+
 .btn
 {
 	font-weight: 600;
@@ -35,6 +35,7 @@ body
 	background: white;
 	border: 1px solid black;
 }
+
 .btn:hover
 {
 	color:white;
@@ -128,6 +129,7 @@ body
 }
 
 /**************** results panel style ******************/
+
 #results-panel
 {
 	z-index: 200;
