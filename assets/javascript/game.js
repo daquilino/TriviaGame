@@ -2,13 +2,6 @@
 /*  RCB - "Trivia Game"    Homework #5         */
 /*                game.js                      */
 
-/*  	TO DO's
-		
-		instructions - change from <ul> back to <p>?
-
-		colors - fonts 
-		clean up code - comment. 
-*/
 
 // Global Variable Declarations
 

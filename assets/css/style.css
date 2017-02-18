@@ -11,6 +11,22 @@ body
 	margin-top: 20px;
 }
 
+/*class to set opacity to background only*/
+.transparent {background: rgba(65,74,76,0.8);}
+
+
+.center-block {float: none;}
+
+/******************* #title styling ******************/
+
+#title
+{
+	margin-top:0px;
+ 	color: white;			
+	font-family:Impact,sans-serif;
+ }
+
+/******************* #play button styling ******************/
 .btn
 {
 	font-weight: 600;
@@ -29,11 +45,9 @@ body
 {
 	color: black;
 	background: white;
-
 }
 
-/*class set opacity to background only*/
-.transparent {background: rgba(65,74,76,0.8);} /*255,255,255*/
+/******************* #main .jumbotron styling ******************/
 
 .jumbotron
 {
@@ -50,13 +64,6 @@ body
 	font-weight: 900;
 }
 
-#title
-{
-	margin-top:0px;
- 	color: white;			
-	font-family:Impact,sans-serif;
- }
-
 .jumbotron p
 {
 	font-size: 2em;
@@ -70,21 +77,13 @@ body
 	border-radius: 25px;
 	color: white;	
 }
-
-#instructions-panel
-{
-	z-index: 1;
-	padding-top:30px;
-}
-
+/********************* panels styling *********************/
 #instructions-panel, #question-panel, #results-panel
 {
 	width: 100%;
 	position:relative;
-
 }
 
-/****************    question panel style ***************************/
 #question-panel, #results-panel
 {
 	z-index: 100;
@@ -93,6 +92,23 @@ body
 	left:0px;
 	visibility: hidden;
 }
+
+/**************** #instruction-panel style *****************/
+
+#instructions-panel
+{
+	z-index: 1;
+	padding-top:9%;
+}
+
+.glyphicon-flag
+{    
+    font-size: 1em;   
+    margin-right: 20px;
+    color: blue;
+}
+
+/**************** question-panel style *****************/
 
 #flag-image, #gif
 {
@@ -105,12 +121,13 @@ body
 {
 	height:170px;
 }
+
 #gif-div
 {
 	height: 180px;
 }
 
-/****************    results panel style ***************************/
+/**************** results panel style ******************/
 #results-panel
 {
 	z-index: 200;
@@ -136,23 +153,8 @@ p.answers:hover
 	background:white;
 }
 
-.center-block {float: none;}
 
 
-li {
-    font-size: 2em;
-    line-height: 2em;
-    color:  white; 
-}
 
-li:before {
-    /*Using a Bootstrap glyphicon as the bullet point*/
-    content: "\e034";
-    font-family: 'Glyphicons Halflings';
-    font-size: 18px;
-    margin-top: 4px;
-    margin-left: 20px;
-    margin-right: 20px;
-    color: blue;
-}
+
 
